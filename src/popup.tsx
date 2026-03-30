@@ -7,12 +7,13 @@ import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button
 
 import "./style.css"
 
+const bg_text_video = "https://cdn.discordapp.com/attachments/1438673501740601355/1488154675789299793/97e7c21b1e9ba1725b150f6b40c2192c.webm?ex=69cbbf8b&is=69ca6e0b&hm=852516473674fade9896a007d55b4d4b45c6dae1c6c5814d6d8ada20dcd9eab3&"
+
 function IndexPopup() {
-  // console.log('testando')
   const [domain, setDomain] = useState("")
   const [isTrusted, setIsTrusted] = useState(false)
-  const [twitterText, setTwitterText] = useState("")
-  const BUBBLES = "https://cdn.discordapp.com/attachments/1444711927161819478/1487438792246825161/bubbles.webm?ex=69c924d3&is=69c7d353&hm=9917d6172d6ec0f9f79f0ad40bbf36552e0dd945bec4c9953e41bf2460d98d9b&"
+  // const [twitterText, setTwitterText] = useState("")
+
   useEffect(() => {
     async function init() {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -23,22 +24,22 @@ function IndexPopup() {
       setDomain(current)
       setIsTrusted(TRUSTED_DOMAINS.includes(current))
 
-      if (current === "twitter.com" || current === "x.com") {
-        chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          func: () => {
-            const tweetElement = document.querySelector('[data-testid="tweetText"]')
-            console.log("tweet found >> ", tweetElement)
-            return tweetElement ? tweetElement.innerHTML : ""
-          }
-        }, (results) => {
-          if (chrome.runtime.lastError){
-            console.log("Erro de permissão ou de script: ", chrome.runtime.lastError.message);
-            return;
-          }
-          if (results?.[0]?.result) setTwitterText(results[0].result)
-        })
-      }
+      // if (current === "twitter.com" || current === "x.com") {
+      //   chrome.scripting.executeScript({
+      //     target: { tabId: tab.id },
+      //     func: () => {
+      //       const tweetElement = document.querySelector('[data-testid="tweetText"]')
+      //       console.log("tweet found >> ", tweetElement)
+      //       return tweetElement ? tweetElement.innerHTML : ""
+      //     }
+      //   }, (results) => {
+      //     if (chrome.runtime.lastError){
+      //       console.log("Erro de permissão ou de script: ", chrome.runtime.lastError.message);
+      //       return;
+      //     }
+      //     if (results?.[0]?.result) setTwitterText(results[0].result)
+      //   })
+      // }
 
     }
     init()
@@ -57,7 +58,7 @@ function IndexPopup() {
     <div className = "">
       <div className = " p-8 w-[350px] min-h-[100px] text-center font-sans rounded-full">
         <div className="relative h-[100px] w-full overflow-hidden">
-          <VideoText src="https://cdn.discordapp.com/attachments/1444711927161819478/1487438792246825161/bubbles.webm?ex=69c924d3&is=69c7d353&hm=9917d6172d6ec0f9f79f0ad40bbf36552e0dd945bec4c9953e41bf2460d98d9b&">
+          <VideoText src = {bg_text_video}>
             VeriFact
           </VideoText>
         </div>

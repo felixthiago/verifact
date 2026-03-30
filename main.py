@@ -23,7 +23,7 @@ FACT_CHECK_URL = "https://factchecktools.googleapis.com/v1alpha1/claims:search"
 
 class FactCheckRequest(BaseModel):
     text: str
-    categories: str = "C2"
+    # category: str = "C2"
 
 async def call_google_api(claims: list, category: str, query: str):
     params = {
@@ -58,21 +58,26 @@ async def check_fact(payload: FactCheckRequest):
         raise HTTPException(status_code = 400, detail = "empty or wrong query")
         
     refined_query = await refine_claim(query)
-
     print(F'DEBUG REFINING QUERY >> {refined_query}')
+    
 
     claims = refined_query.get("claims", []) # type: ignore
-    category = refined_query.get("categories", "").lower() # type: ignore
+    category = refined_query.get("category", "").lower() # type: ignore
     
     if category == "c1":
+        # print(refined_query)
         return refined_query
     
     elif category in ["c2", "c3"]:
         search_results = await call_google_api(claims, category, query)
+        print(search_results)
         google_results = search_results.get("claims", []) if isinstance(search_results, dict) else search_results
         final_veridict = syntesize_claim(payload.text, google_results, category)
-        
+        print(f'FINAL VERIDICT >> {final_veridict}')
+              
         return final_veridict
+    elif category == "dev_mode":
+        print(f'dev mode. \n > {refined_query}')
     else:
         print(f'categoria desconhecida. {payload.text} ')
 

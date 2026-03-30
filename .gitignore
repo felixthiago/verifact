@@ -23,3 +23,8 @@ dist/
 .plasmo
 
 .tsbuildinfo
+
+__pycache__
+*.pyc
+
+.github/

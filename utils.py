@@ -4,13 +4,15 @@ from json import loads
 from google import genai
 from google.genai import types
 
+from groq import Groq
+
 from dotenv import load_dotenv
 load_dotenv()
 
-GEMINI_API_KEY = os.getenv("GOOGLE_GENAI_API_KEY")
-MODEL_ID = "gemini-2.0-flash"
-client = genai.Client(api_key = GEMINI_API_KEY)
+API_KEY = os.getenv("GROQ_API")
+MODEL_ID = "llama-3.3-70b-versatile"
 
+client = Groq(api_key = API_KEY)
 
 def clean_json_string(text: str) -> str:
     import re
@@ -18,6 +20,29 @@ def clean_json_string(text: str) -> str:
     return text.strip()
 
 async def refine_claim(raw_claim: str) -> dict:
+    dev_mode = os.getenv("DEV_MODE")
+    if dev_mode == True:
+        return {
+                "category": "dev_mode",
+                "verification": "false",
+                "confidence": "high",
+                "explanation": "A afirmação de que vacinas causam câncer é falsa e amplamente desmentida por verificações de fatos. Múltiplas fontes, incluindo estudos científicos e a OMS, classificam como 'falso' ou 'enganoso' diversas alegações que tentam associar vacinas (especialmente as de COVID-19) ao surgimento de câncer, ao 'turbo câncer', ou a outras doenças graves em crianças e adultos. Não há evidências científicas que comprovem um vínculo causal entre a vacinação e o desenvolvimento de câncer. As verificações analisaram e refutaram teorias sobre o vírus SV40 em vacinas, supostos aumentos de casos de câncer em países vacinados, e estudos que alegadamente mostram crianças vacinadas mais doentes, confirmando a inexistência de fundamento para tais alegações.",
+                "labels": ["anti-vacina"],
+                "sources": [
+                "https://www.estadao.com.br",
+                "https://www.estadao.com.br",
+                "https://www.estadao.com.br",
+                "https://www.estadao.com.br",
+                "https://www.estadao.com.br",
+                "https://www.estadao.com.br",
+                "https://www.estadao.com.br",
+                "https://www.estadao.com.br",
+                "https://www1.folha.uol.com.br",
+                "https://www.estadao.com.br"
+                ],
+                "sentiment": "Alarmista"
+            }
+    
     prompt = f"""
         **Texto para analise:** {raw_claim}    
 
@@ -34,33 +59,38 @@ async def refine_claim(raw_claim: str) -> dict:
         ## RETORNE SOMENTE UM JSON SEGUINDO ESTE ESQUEMA, SEM NENHUMA EXPLICAÇÃO ADICIONAL, SEM `, NEM PONTUAÇÃO, NEM FORMATAÇÃO, APENAS O JSON:
         {{
             "claims": "[lista de afirmações refinadas para checagem no google fact check]",
-            "categories": "[C1, C2, or C3]",  
+            "category": "[C1, C2, or C3]",  
         }}
         ```
     """
 
     try:
-        response = client.models.generate_content(
+        raw_response = client.with_raw_response.chat.completions.create(
             model = MODEL_ID,
-            contents = raw_claim,
-            config = types.GenerateContentConfig(
-                system_instruction = prompt,
-                response_mime_type = 'application/json'
-            )
+            messages = [
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": f"texto para analise > {raw_claim}"}
+            ],
+            response_format = {"type": "json_object"}
         )
-        print(response.text)
+        print(raw_response.headers.get('x-ratelimit-remaining-requests'))
 
-        if response.text is None:
+        response = raw_response.parse()
+        content = response.choices[0].message.content
+
+        if content is None:
             raise ValueError('null response from gemini')
-        cleaned_text = clean_json_string(response.text)
+    
+        print(response.choices[0].message.content)
+        cleaned_content = clean_json_string(content)
 
-        return loads(cleaned_text)
+        return loads(cleaned_content)
 
     except Exception as e:
         print(f'erro > {e}')
         return {
             "claims": raw_claim[:300],
-            "categories": "C1",
+            "category": "C1",
             "error": str(e)
         }
 
@@ -82,35 +112,43 @@ def syntesize_claim(raw_text: str, google_results: list, category: str):
 
     Retorne APENAS um JSON seguindo este esquema:
     {{
-        "Verification": "VERIFIED | PARTIALLY VERIFIED | NOT VERIFIED | FALSE",
-        "Confidence": "HIGH | MEDIUM | LOW",
-        "Explanation": "Explicação concisa de no máximo 2 parágrafos",
-        "Bias": "Detecção de viés ou 'None'",
-        "Sources": ["Lista de URLs das fontes principais"],
-        "Sentiment": "Tom emocional da mensagem original"
+        "verification": "VERIFICADO | PARCIALMENTE VERIFICADO | NÃO VERIFICADO | FALSO",
+        "category": "C1 | C2 | C3",
+        "confidence": "ALTO | MÉDIO | BAIXO",
+        "explanation": "Explicação concisa de no máximo 2 parágrafos",
+        "bias": "Detecção de viés ou 'None'",
+        "sources": ["Lista de URLs das fontes principais"],
+        "sentiment": "Tom emocional da mensagem original"
     }}
     """
+
     try:
-        response = client.models.generate_content(
+        response = client.chat.completions.create(
             model = MODEL_ID,
-            contents = prompt,
-            config = types.GenerateContentConfig(
-                system_instruction = prompt,
-                response_mime_type = "application/json"
-            )
+            messages = [
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": "Dê um veredito final sobre a afirmação com base nas informações disponíveis."}
+            ],
+            response_format = {"type": "json_object"}
         )
-        if response.text is None:
+
+        content = response.choices[0].message.content
+
+        if content is None:
             raise ValueError('null response from gemini')
-        return loads(response.text)
-    
+        
+        cleaned_content = clean_json_string(content)
+
+        return loads(cleaned_content)
+
     except Exception as e:
         print(f'erro > {e}')
         return {
-            "ERRO": str(e),
+            "error": str(e),
             "verification": "NOT VERIFIED",
             "confidence": "LOW",
-            "Explanation": "Ocorreu um erro ao sintetizar a informação",
-            "Sources": [],
-            "Sentiment": "Neutral"
+            "explanation": "Ocorreu um erro ao sintetizar a informação",
+            "sources": [],
+            "sentiment": "Neutral"
         }
     
