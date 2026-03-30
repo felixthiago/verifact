@@ -24,23 +24,6 @@ function IndexPopup() {
       setDomain(current)
       setIsTrusted(TRUSTED_DOMAINS.includes(current))
 
-      // if (current === "twitter.com" || current === "x.com") {
-      //   chrome.scripting.executeScript({
-      //     target: { tabId: tab.id },
-      //     func: () => {
-      //       const tweetElement = document.querySelector('[data-testid="tweetText"]')
-      //       console.log("tweet found >> ", tweetElement)
-      //       return tweetElement ? tweetElement.innerHTML : ""
-      //     }
-      //   }, (results) => {
-      //     if (chrome.runtime.lastError){
-      //       console.log("Erro de permissão ou de script: ", chrome.runtime.lastError.message);
-      //       return;
-      //     }
-      //     if (results?.[0]?.result) setTwitterText(results[0].result)
-      //   })
-      // }
-
     }
     init()
   }, [])
@@ -55,14 +38,13 @@ function IndexPopup() {
   }
 
   return (
-    <div className = "">
-      <div className = " p-8 w-[350px] min-h-[100px] text-center font-sans rounded-full">
+    <div className = "relative w-[350px] min-h-[300px] flex flex-col items-center justify-center overflow-hidden bg-gradient-to-r from-purple-900 to-violet-900 opacity-90font-sans shadow-2xl">
+      <div className = "p-8 w-[350px] min-h-[100px] text-center font-sans rounded-full">
         <div className="relative h-[100px] w-full overflow-hidden">
           <VideoText src = {bg_text_video}>
             VeriFact
           </VideoText>
         </div>
-        {/* <h1 className = 'text-4xl font-semibold'>Verifact</h1> */}
         
         <div className = {`mt-4 p-4 rounded-lg ${isTrusted ? "bg-success" : "bg-danger"} transition-colors duration-300 ease-in-out`}>
           <h2 className = {`m-auto text-base font-bold text-white`}>  

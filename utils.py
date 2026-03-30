@@ -42,18 +42,18 @@ async def refine_claim(raw_claim: str) -> dict:
                 ],
                 "sentiment": "Alarmista"
             }
-    
+
     prompt = f"""
         **Texto para analise:** {raw_claim}    
 
-        Você é um assistente de checagem de fatos. remova links, hashtags, menções e emoji no texto. Sua tarefa é analisar o texto a seguir e fornecer uma versão concisa e refinada da informação, para uma analise posterior no google fact check tools.
+        Você é um assistente de checagem de fatos. remova links, hashtags, menções e emoji no texto. Sua tarefa é analisar o texto a seguir e fornecer uma versão concisa e refinada da informação, para uma analise posterior no google fact check tools(apenas reformule a expressão para ser passada para o google fact check, não forneça comentarios adicionais ou explicação).
         Considere que o texto pode conter informações imprecisas, exageradas ou irrelevantes, seu objetivo a principio classificar a relevancia impacto da informação, em categorias de três .
         - C1: se referem a informações que são obviamente falsas, e irrelevantes para checagem do google facts, ou seja não possuem impacto relevante, e não devem ser checadas.
         - C2: se referem a informações que possuem um impacto relevante, ou seja podem influenciar um perfil, pensamento ou indaguem, mesmo que de forma sutil o usuario sobre o conhecimento de um fato, e portanto devem ser checadas.
         - C3: se referem a informações que possuem um impacto muito relevante, que certamente influenciam, de forma significativa o usuario sobre seu pensamento e portanto devem ser checadas.
         caso o modelo não consiga identificar o nível de impacto precisamente, deve classificar a informação no nivel C2. 
 
-        caso a informação seja classificada como C1, o modelo deve retornar em claim uma breve analise sobre essa informação, explicando de maneira humorada e concisa o motivo da classificação.
+        caso a informação seja classificada como C1, o modelo deve retornar em claim uma breve analise sobre essa informação, explicando de maneira BEM HUMORADA e CONCISA o motivo da classificação.
         se for C2 ou C3, 'claims' deve ser uma lista de afirmações curtas e factuais
         caso o modelo receba afirmações dubias de serem checadas pelo google fact check tools, como por exemplo fofocas e rumores, afirmações obvias, classificações incorretas e afirmações pessoais, deve classificar a informação como C1 e explicar de maneira humorada o motivo da classificação.
         ## RETORNE SOMENTE UM JSON SEGUINDO ESTE ESQUEMA, SEM NENHUMA EXPLICAÇÃO ADICIONAL, SEM `, NEM PONTUAÇÃO, NEM FORMATAÇÃO, APENAS O JSON:

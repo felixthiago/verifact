@@ -36,7 +36,7 @@ export const ActionCard = ({ detectedText, onAnalyze, onClear, loading }) => {
         <div className="space-y-3">
             <textarea 
                 className="w-full h-24 bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all resize-none"
-                placeholder="Cole um texto para checagem..."
+                placeholder="Digite um texto para checagem..."
                 value={manualText}
                 onChange={(e) => setManualText(e.target.value)}
             />

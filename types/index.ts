@@ -1,9 +1,9 @@
 export interface VerifactResponse{
     verification: string,
-    confidence: string
+    category: string
+    confidence: string,
     explanation: string,
-    category: string,
-    sources: string[],
-    labels: string[],
+    bias: string,
+    sources: string[]
     sentiment: string
 }
