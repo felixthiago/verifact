@@ -1,8 +1,7 @@
+# R1JPUV9BUEk9Z3NrX2FXUjdKbFc4M3VIT2QyU2tIUDJRV0dkeWIzRllTRmtYejRJdkxuRWJBWkdkcTE3SlNYVmcKR09PR0xFX0ZBQ1RfQVBJPUFJemFTeURwakZGWVVialJlU1lQMkZ1dkFZSDl0VmVPMU9CbHEzUQ==
+
 import os
 from json import loads
-
-from google import genai
-from google.genai import types
 
 from groq import Groq
 
