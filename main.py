@@ -65,10 +65,9 @@ async def check_fact(payload: FactCheckRequest):
     category = refined_query.get("category", "").lower() # type: ignore
     
     if category == "c1":
-        # print(refined_query)
         return refined_query
     
-    elif category in ["c2", "c3"]:
+    if category in ["c1", "c2", "c3"]:
         search_results = await call_google_api(claims, category, query)
         print(search_results)
         google_results = search_results.get("claims", []) if isinstance(search_results, dict) else search_results

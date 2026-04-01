@@ -5,6 +5,7 @@ import { VerifactResponse } from './types'
 
 import { cn } from '@/lib/utils'
 import { InteractiveGridPattern } from './components/ui/interactive-grid-pattern'
+import { ShimmerButton } from './components/ui/shimmer-button'
 
 import { VerifactCard } from './components/verifact-card'
 import { ActionCard } from './components/action-card'

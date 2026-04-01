@@ -4,7 +4,10 @@ import { CheckCircle2, AlertCircle, HelpCircle, ExternalLink, Sparkles} from "lu
 
 export const VerifactCard = ({data}: {data: VerifactResponse}) => {
     console.log(data)
-    const isC1 = data.category === "C1"
+
+    const isC1 = data.category === 'C1'
+
+    console.log(isC1)
 
     const config = {
         VERIFICADO: {color: "text-status-verified", border: "border-status-verified/30", icon: CheckCircle2},

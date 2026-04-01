@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Poppins', 'ui-sans-serif', 'systemui' ]
+        sans: ['Poppins', 'inter', 'ui-sans-serif', 'systemui' ]
       },
       colors: {
         status: {

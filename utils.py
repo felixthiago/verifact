@@ -53,6 +53,7 @@ async def refine_claim(raw_claim: str) -> dict:
         caso o modelo não consiga identificar o nível de impacto precisamente, deve classificar a informação no nivel C2. 
 
         caso a informação seja classificada como C1, o modelo deve retornar em claim uma breve analise sobre essa informação, explicando de maneira BEM HUMORADA e CONCISA o motivo da classificação.
+        
         se for C2 ou C3, 'claims' deve ser uma lista de afirmações curtas e factuais
         caso o modelo receba afirmações dubias de serem checadas pelo google fact check tools, como por exemplo fofocas e rumores, afirmações obvias, classificações incorretas e afirmações pessoais, deve classificar a informação como C1 e explicar de maneira humorada o motivo da classificação.
         ## RETORNE SOMENTE UM JSON SEGUINDO ESTE ESQUEMA, SEM NENHUMA EXPLICAÇÃO ADICIONAL, SEM `, NEM PONTUAÇÃO, NEM FORMATAÇÃO, APENAS O JSON:
@@ -60,7 +61,7 @@ async def refine_claim(raw_claim: str) -> dict:
             "claims": "[lista de afirmações refinadas para checagem no google fact check]",
             "category": "[C1, C2, or C3]",  
         }}
-        ```
+        ``` 
     """
 
     try:
@@ -94,21 +95,12 @@ async def refine_claim(raw_claim: str) -> dict:
         }
 
 def syntesize_claim(raw_text: str, google_results: list, category: str):
-    if not google_results:
-        return {
-            "verification": "NOT VERIFIED",
-            "confidence": "LOW",
-            "Explanation": "Nenhuma checagem oficial foi encontrada para este fato específico",
-            "Sources": [],
-            "Sentimental": "Neutral"
-        }
-
     prompt = f"""
     Você é um assistente de checagem de fatos que agora precisa dar um veredito final sobre um fato checado com informações pelo google fact check tools. Considere:
     - O texto original da afirmação, tendo em vista tom de humor ou contexto social: {raw_text}
     - A categoria de impacto da afirmação: {category} (C1, C2, OU C3 sendo C1 o menos relevante e C3 o mais relevante) 
     - Os resultados de checagem do google fact check tools: {google_results}
-
+    - Caso o a checagem de fatos da google não contenha valores relevantes, automaticamente categorize como C1, caso contrario continue a verificação
     Retorne APENAS um JSON seguindo este esquema:
     {{
         "verification": "VERIFICADO | PARCIALMENTE VERIFICADO | NÃO VERIFICADO | FALSO",
