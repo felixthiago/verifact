@@ -1,9 +1,23 @@
+# Veri Fact
+
+Verificação de notícias e detecção de desinformação em tempo real utilizando IA e Google Fact Check API.
+
+## Demonstração
+
+[Video de demonstração](https://github.com/felixthiago/verifact/blob/main/verifact_demonstration.mp4)
+
+## Configuração Necessária
+
+Para a extensão funcionar corretamente, configure as chaves de API, um arquivo `.env` na raiz do projeto com as seguintes variaveis:
+
+```env
+GOOGLE_FACT_API=SUA_CHAVE_DO_GOOGLE_CLOUD
+GROQ_API=SUA_CHAVE_DA_GROQ_OU_GEMINI
+
+
 This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
 
 ## Demonstração da extensão em produção
-
-
-
 
 ## Getting Started
 
