@@ -4,7 +4,7 @@ Verificação de notícias e detecção de desinformação em tempo real utiliza
 
 ## Demonstração
 
-[Video de demonstração](https://github.com/felixthiago/verifact/blob/main/verifact_demonstration.mp4)
+<video controls src="https://github.com/felixthiago/verifact/blob/main/verifact_demonstration.mp4" title="Title"></video>
 
 ## Configuração Necessária
 
