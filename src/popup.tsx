@@ -7,7 +7,7 @@ import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button
 
 import "./style.css"
 
-const bg_text_video = "https://cdn.discordapp.com/attachments/1438673501740601355/1488154675789299793/97e7c21b1e9ba1725b150f6b40c2192c.webm?ex=69cbbf8b&is=69ca6e0b&hm=852516473674fade9896a007d55b4d4b45c6dae1c6c5814d6d8ada20dcd9eab3&"
+const bg_text_video = "https://files.catbox.moe/nd2pdi.webm"
 
 function IndexPopup() {
   const [domain, setDomain] = useState("")
@@ -38,10 +38,10 @@ function IndexPopup() {
   }
 
   return (
-    <div className = "relative w-[350px] min-h-[300px] flex flex-col items-center justify-center overflow-hidden bg-gradient-to-r from-purple-900 to-violet-900 opacity-90font-sans shadow-2xl">
+    <div className = "relative w-[350px] min-h-[300px] flex flex-col items-center justify-center overflow-hidden bg-white opacity-90font-sans shadow-2xl">
       <div className = "p-8 w-[350px] min-h-[100px] text-center font-sans rounded-full">
         <div className="relative h-[100px] w-full overflow-hidden">
-          <VideoText src = {bg_text_video}>
+          <VideoText src = {bg_text_video} fontSize={24} fontWeight={800} fontFamily = {'Poppins'}>
             VeriFact
           </VideoText>
         </div>
