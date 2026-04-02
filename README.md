@@ -4,7 +4,7 @@ Verificação de notícias e detecção de desinformação em tempo real utiliza
 
 ## Demonstração
 
-<video controls src="https://github.com/felixthiago/verifact/blob/main/verifact_demonstration.mp4" title="Title"></video>
+![Demonstração da extensão em produção](verifact_demonstration.mp4)
 
 ## Configuração Necessária
 
@@ -13,11 +13,6 @@ Para a extensão funcionar corretamente, configure as chaves de API, um arquivo 
 ```env
 GOOGLE_FACT_API=SUA_CHAVE_DO_GOOGLE_CLOUD
 GROQ_API=SUA_CHAVE_DA_GROQ_OU_GEMINI
-
-
-This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
-
-## Demonstração da extensão em produção
 
 ## Getting Started
 
