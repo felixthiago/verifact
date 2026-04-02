@@ -4,7 +4,7 @@ Verificação de notícias e detecção de desinformação em tempo real utiliza
 
 ## Demonstração
 
-![Demonstração da extensão em produção](verifact_demonstration.mp4)
+![Extensão em produção](https://github.com/user-attachments/assets/6b90af3a-c5fc-4d9f-b210-68e87036bcc1)
 
 ## Configuração Necessária
 
