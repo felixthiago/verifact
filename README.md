@@ -4,7 +4,7 @@ Verificação de notícias e detecção de desinformação em tempo real utiliza
 
 ## Demonstração
 
-![Extensão](https://github.com/user-attachments/assets/b4665903-c949-490f-9ae5-ac87b41662ab)
+![Image](https://github.com/user-attachments/assets/e1fa51cb-38f1-4bdb-8c57-623b9f4548f4)
 
 ## Configuração Necessária
 
