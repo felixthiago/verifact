@@ -10,6 +10,7 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@plasmohq/messaging": "^0.7.2",
     "@plasmohq/storage": "^1.15.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
@@ -37,10 +38,16 @@
       "https://twitter.com/*",
       "https://x.com/*"
     ],
-    "permissions": ["sidePanel", "tabs", "activeTab", "scripting" ],
+    "permissions": [
+      "sidePanel",
+      "tabs",
+      "activeTab",
+      "scripting",
+      "storage",
+      "cookies"
+    ],
     "side_panel": {
       "default_path": "sidepanel.html"
     }
-    
   }
 }

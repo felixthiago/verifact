@@ -12,7 +12,7 @@ const bg_text_video = "https://files.catbox.moe/nd2pdi.webm"
 function IndexPopup() {
   const [domain, setDomain] = useState("")
   const [isTrusted, setIsTrusted] = useState(false)
-  // const [twitterText, setTwitterText] = useState("")
+  const [isTwitter, setIsTwitter] = useState(false)
 
   useEffect(() => {
     async function init() {
@@ -21,8 +21,14 @@ function IndexPopup() {
 
       const urlObj = new URL(tab.url)
       const current = urlObj.hostname.replace(/^www\./, "")
+
       setDomain(current)
       setIsTrusted(TRUSTED_DOMAINS.includes(current))
+      
+      if(domain === "twitter.com" || domain === 'x.com'){
+        setIsTwitter(true)
+        const cache = await chrome.storage.local.get(['authToken', 'authUser', 'authCheckedAt'])
+      }
 
     }
     init()
