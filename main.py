@@ -56,9 +56,13 @@ async def check_fact(payload: FactCheckRequest):
 
     if not query or query.strip() == "":
         raise HTTPException(status_code = 400, detail = "empty or wrong query")
-        
-    refined_query = await refine_claim(query)
-    print(F'DEBUG REFINING QUERY >> {refined_query}')
+    
+    try:
+        refined_query = await refine_claim(query)
+        print(F'DEBUG REFINING QUERY >> {refined_query}')
+    except Exception as e:
+        print(f'Error refining claim: {e}')
+        raise HTTPException(status_code = 500, detail = "error refining claim")
     
 
     claims = refined_query.get("claims", []) # type: ignore
