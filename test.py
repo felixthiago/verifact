@@ -1,11 +1,11 @@
-from google import genai
-import os
+# from google import genai
+# import os
 
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 
-client = genai.Client(api_key = os.getenv("GOOGLE_GENAI_API_KEY"))
+# client = genai.Client(api_key = os.getenv("GOOGLE_GENAI_API_KEY"))
 
-for m in client.models.list():
-    print(F'ID > {m.name} || {m.display_name}')
+# for m in client.models.list():
+#     print(F'ID > {m.name} || {m.display_name}')
