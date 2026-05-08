@@ -41,7 +41,6 @@ export default function IndexPopup() {
   const [tweetLoading, setTweetLoading] = useState(false)
   const [tweetError, setTweetError] = useState<string | null>(null)
 
-  // Shared storage that the sidepanel watches to auto-trigger analysis
   const [, setDetectedText] = useStorage<string>("detectedText", "")
 
   useEffect(() => {
